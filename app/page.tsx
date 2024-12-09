@@ -1,101 +1,89 @@
-import Image from "next/image";
+'use client'
+
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import ProductCard from "@/components/productCard";
+import { ProductCategories } from "@/constants";
+import { useProductListContext } from "@/context/ProductListContext";
+import { Product, User } from "@/type";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const router = useRouter();
+  const userString = sessionStorage.getItem("user");
+  const user: User = userString ? JSON.parse(userString) : {};
+  const { productCategory2, productCategory3 } = useProductListContext();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <main className="w-full">
+      <title>H Phamarcy</title>
+      <Header user={user}/>
+      <div className="h-[600px] w-full bg-slate-200 mt-[80px] flex items-center justify-between py-10 px-32">
+        <div className="w-[600px] break-words">
+          <h1 className="text-[64px] font-semibold text-blue-500">H Phamarcy</h1>
+          <p className="mt-4">Chào mừng bạn đến với H Phamarcy, nơi cung cấp các sản phẩm thuốc chất lượng cao và dịch vụ tư vấn tận tình. Chúng tôi cam kết mang đến cho khách hàng những sản phẩm an toàn, hiệu quả và được chứng nhận bởi các cơ quan y tế. Với giao diện thân thiện và dễ sử dụng, H Phamarcy giúp bạn dễ dàng tìm kiếm và mua sắm các sản phẩm thuốc mọi lúc, mọi nơi. Hãy để chúng tôi đồng hành cùng bạn trong hành trình chăm sóc sức khỏe </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <img src="/doc.jpeg" alt="Image" className="w-[600px] rounded-xl shadow-lg"/>
+      </div>
+
+      <div className="w-full flex flex-col items-center">
+        <div className="w-[70%] mt-20">
+          <div className="flex gap-4 items-center">
+            <img src={ProductCategories[1].image} alt="Image" className="w-[60px] rounded-md shadow-lg" />
+            <h1 onClick={()=>router.push('/products/category/2')} className="text-[24px] font-semibold hover:underline cursor-pointer underline-offset-2">{ProductCategories[1].name}</h1>
+          </div>
+          <div className="mt-10 grid grid-cols-4 grid-flow-row gap- w-full gap-4 mb-12">
+            {productCategory2.slice(2).map((product: Product) => {
+              return <ProductCard key={product.name} product={product} />
+            })}
+          </div>
+        </div>
+
+        <div className="w-[70%] mt-20">
+          <div className="flex gap-4 items-center">
+            <img src={ProductCategories[2].image} alt="Image" className="w-[60px] rounded-md shadow-lg" />
+            <h1 onClick={()=>router.push('/products/category/3')} className="text-[24px] font-semibold hover:underline cursor-pointer underline-offset-2">{ProductCategories[2].name}</h1>
+          </div>
+          <div className="mt-10 grid grid-cols-4 grid-flow-row gap- w-full gap-4 mb-12">
+            {productCategory3.slice(2).map((product: Product) => {
+              return <ProductCard key={product.name} product={product} />
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full h-[500px] flex items-center justify-center gap-[200px] p-6">
+        <div className="w-[400px] break-words">
+          <h2 className="font-bold text-3xl">Chất lượng vượt trội</h2>
+          <p className="mt-4 text-lg">Sản phẩm của chúng tôi được sản xuất với công nghệ tiên tiến, đảm bảo chất lượng vượt trội và an toàn cho sức khỏe người tiêu dùng.</p>
+        </div>
+        <img src="/lg-1.png" alt="" className="w-[400px] rounded-md shadow-lg"/>
+      </div>
+
+      <div className="w-full h-[500px] flex items-center justify-center gap-[200px] p-6">
+        <img src="/lg-2.png" alt="" className="w-[400px] rounded-md shadow-lg"/>
+        <div className="w-[400px] break-words">
+          <h2 className="font-bold text-3xl">Kiểm định nghiêm ngặt</h2>
+          <p className="mt-4 text-lg">Mỗi lô hàng đều trải qua quy trình kiểm định chất lượng nghiêm ngặt, đảm bảo đáp ứng các tiêu chuẩn cao nhất trong ngành.</p>
+        </div>
+      </div>
+
+      <div className="w-full h-[500px] flex items-center justify-center gap-[200px] p-6">
+        <div className="w-[400px] break-words">
+          <h2 className="font-bold text-3xl">Nguyên liệu tự nhiên</h2>
+          <p className="mt-4 text-lg">Chúng tôi cam kết sử dụng nguyên liệu tự nhiên, không chứa hóa chất độc hại, mang lại hiệu quả tối ưu cho người sử dụng.</p>
+        </div>
+        <img src="/lg-3.png" alt="" className="w-[400px] rounded-md shadow-lg"/>
+      </div>
+
+      <div className="w-full h-[500px] flex items-center justify-center gap-[200px] p-6">
+        <img src="/lg-4.png" alt="" className="w-[400px] rounded-md shadow-lg"/>
+        <div className="w-[400px] break-words">
+          <h2 className="font-bold text-3xl">Phản hồi từ khách hàng</h2>
+          <p className="mt-4 text-lg">Chúng tôi tự hào nhận được những phản hồi tích cực từ hàng triệu khách hàng, chứng minh cho chất lượng và sự tin cậy của sản phẩm.</p>
+        </div>
+      </div>
+      <Footer />
+    </main>
   );
 }
