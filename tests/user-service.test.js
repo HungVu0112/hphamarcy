@@ -5,6 +5,8 @@ const User = require('../models/user');
 const userRoutes = require('../routes/user');
 const bcrypt = require('bcrypt');
 
+require('dotenv').config({ path: '.env.test' });
+
 jest.setTimeout(30000);
 
 describe('User Service API', () => {
