@@ -43,6 +43,7 @@ describe("OrderCard Component", () => {
   };
 
   const mockSetRefresh = jest.fn();
+  const mockSetShowMessage = jest.fn(); // Thêm mock function này
 
   beforeEach(() => {
     (useUserOrderContext as jest.Mock).mockReturnValue({
@@ -51,7 +52,12 @@ describe("OrderCard Component", () => {
   });
 
   it("renders order information correctly", () => {
-    render(<OrderCard order={mockOrder} />);
+    render(
+      <OrderCard 
+        order={mockOrder} 
+        setShowMessage={mockSetShowMessage} // Truyền mock function
+      />
+    );
 
     expect(screen.getByText("Product Test")).toBeInTheDocument();
     expect(screen.getByText("Tổng cộng: 100.000 đ")).toBeInTheDocument();
@@ -61,7 +67,12 @@ describe("OrderCard Component", () => {
 
   it("displays 'Đã thanh toán' when order status is not Pending", () => {
     const paidOrder = { ...mockOrder, status: "Paid" };
-    render(<OrderCard order={paidOrder} />);
+    render(
+      <OrderCard 
+        order={paidOrder} 
+        setShowMessage={mockSetShowMessage} // Truyền mock function
+      />
+    );
 
     expect(screen.getByText("Đã thanh toán")).toBeInTheDocument();
   });
