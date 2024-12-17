@@ -3,9 +3,10 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import ProductCard from "@/components/productCard";
+import ToastMessage from "@/components/toastMessage";
 import { ProductCategories } from "@/constants";
 import { useProductListContext } from "@/context/ProductListContext";
-import { Product, User } from "@/type";
+import { Category, Product, User } from "@/type";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -24,6 +25,17 @@ export default function Home() {
           <p className="mt-4">Chào mừng bạn đến với H Phamarcy, nơi cung cấp các sản phẩm thuốc chất lượng cao và dịch vụ tư vấn tận tình. Chúng tôi cam kết mang đến cho khách hàng những sản phẩm an toàn, hiệu quả và được chứng nhận bởi các cơ quan y tế. Với giao diện thân thiện và dễ sử dụng, H Phamarcy giúp bạn dễ dàng tìm kiếm và mua sắm các sản phẩm thuốc mọi lúc, mọi nơi. Hãy để chúng tôi đồng hành cùng bạn trong hành trình chăm sóc sức khỏe </p>
         </div>
         <img src="/doc.jpeg" alt="Image" className="w-[600px] rounded-xl shadow-lg"/>
+      </div>
+
+      <div className="w-full flex gap-24 justify-center mt-12">
+        {ProductCategories.map((category: Category) => {
+          return <div key={category.name} className="w-[140px] h-[160px] flex flex-col justify-center items-center gap-4">
+              <div onClick={(()=>router.push(`/products/category/${category.id}`))} className="w-[100px] h-[100px] rounded-full shadow-lg overflow-hidden border border-slate-200 hover:scale-[1.2] duration-150 hover:border-[3px] hover:border-blue-500 cursor-pointer">
+                  <img src={category.image} alt="Image" className="w-full h-full object-cover"/>
+              </div>
+              <p className="w-full overflow-hidden text-ellipsis text-nowrap text-center text-sm font-bold">{category.name}</p>
+          </div>
+        })}
       </div>
 
       <div className="w-full flex flex-col items-center">

@@ -3,6 +3,7 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import ProductCard from "@/components/productCard";
+import ToastMessage from "@/components/toastMessage";
 import { useProductListContext } from "@/context/ProductListContext";
 import { useUserOrderContext } from "@/context/UserOrderContext";
 import { Product, User } from "@/type"
@@ -21,6 +22,7 @@ export default function ProductDetailPage({ params } : { params: { productId: st
     const [quantity, setQuantity] = useState<number>(1);
     const [isFetching, setIsFetching] = useState<boolean>(false);
     const [similarProduct, setSimilarProduct] = useState<Product[]>([]);
+    const [showMessage, setShowMessage] = useState<boolean>(false);
 
     const formatNumber = (num: number | undefined) => {
         if (num === undefined) return;
@@ -45,6 +47,10 @@ export default function ProductDetailPage({ params } : { params: { productId: st
             if (res.status == 201) {
                 setIsFetching(false);
                 setRefresh(n=>n+1);
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 1500)
             }
         } catch (error) {
             console.error(error);
@@ -189,6 +195,7 @@ export default function ProductDetailPage({ params } : { params: { productId: st
                 </div>
             </div>
             <Footer />
+            {showMessage && <ToastMessage message="Tạo đơn hàng thành công !"/>}
         </main>
     )
 }

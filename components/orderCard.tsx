@@ -3,8 +3,9 @@ import { Order } from "@/type";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { Dispatch, SetStateAction } from "react";
 
-export default function OrderCard({ order } : { order: Order }) {
+export default function OrderCard({ order, setShowMessage } : { order: Order, setShowMessage: Dispatch<SetStateAction<boolean>> }) {
     const { setRefresh } = useUserOrderContext();
 
     const handlePurchase = async() => {
@@ -15,6 +16,10 @@ export default function OrderCard({ order } : { order: Order }) {
 
             if (res.status == 200) {
                 setRefresh(n=>n+1);
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 1500)
             }
         } catch (error) {
             console.error(error);   

@@ -3,15 +3,18 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import OrderCard from "@/components/orderCard";
+import ToastMessage from "@/components/toastMessage";
 import { useUserOrderContext } from "@/context/UserOrderContext";
 import { Order, User } from "@/type";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 export default function CartPage() {
     const userString = sessionStorage.getItem("user");
     const user: User = userString ? JSON.parse(userString) : {};
     const { orders } = useUserOrderContext();
+    const [showMessage, setShowMessage] = useState<boolean>(false);
 
     return (
         <main className="w-full">
@@ -30,7 +33,7 @@ export default function CartPage() {
                             :
                             <>
                                 {orders.map((order: Order) => {
-                                    return <OrderCard key={order._id} order={order}/>
+                                    return <OrderCard setShowMessage={setShowMessage} key={order._id} order={order}/>
                                 })}
                             </>
                         }
@@ -38,6 +41,7 @@ export default function CartPage() {
                 </div>
             </div>
             <Footer/>
+            {showMessage && <ToastMessage message="Thanh toán đơn hàng thành công !"/>}
         </main>
     )
 }
